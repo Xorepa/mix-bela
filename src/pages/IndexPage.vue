@@ -23,7 +23,13 @@
     </div>
 
     <!-- Carrossel Modal -->
-    <q-dialog v-model="showCarousel" full-width maximized seamless>
+    <q-dialog
+      v-model="showCarousel"
+      full-width
+      maximized
+      seamless
+      @click-outside="showCarousel = false"
+    >
       <q-carousel
         v-model="slide"
         animated
