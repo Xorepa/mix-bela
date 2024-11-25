@@ -23,39 +23,44 @@
     </div>
 
     <!-- Carrossel Modal -->
-    <q-dialog v-model="showCarousel" full-width>
-      <q-card>
-        <q-carousel
-          v-model="slide"
-          animated
-          arrows
-          navigation
-          infinite
-          height="70vh"
+    <q-dialog v-model="showCarousel" full-width maximized seamless>
+      <q-carousel
+        v-model="slide"
+        animated
+        arrows
+        navigation
+        infinite
+        class="carousel-container"
+      >
+        <q-carousel-slide
+          v-for="(image, index) in selectedItem.images"
+          :key="index"
+          :name="index"
+          class="carousel-slide"
         >
-          <q-carousel-slide
-            v-for="(image, index) in selectedItem.images"
-            :key="index"
-            :name="index"
+          <q-img
+            :src="image"
+            class="carousel-image"
+            fit="contain"
           >
-            <q-img
-              :src="image"
-              style="height: 100%"
-              fit="contain"
-            >
-              <template v-slot:error>
-                <div class="absolute-full flex flex-center text-negative">
-                  <q-icon name="error" size="2em" />
-                  Imagem não encontrada
-                </div>
-              </template>
-            </q-img>
-          </q-carousel-slide>
-        </q-carousel>
-        <q-card-actions align="right">
-          <q-btn flat label="Fechar" color="primary" v-close-popup />
-        </q-card-actions>
-      </q-card>
+            <template v-slot:error>
+              <div class="absolute-full flex flex-center text-negative">
+                <q-icon name="error" size="2em" />
+                Imagem não encontrada
+              </div>
+            </template>
+          </q-img>
+        </q-carousel-slide>
+
+        <!-- Botão de fechar flutuante -->
+        <q-btn
+          round
+          color="dark"
+          icon="close"
+          class="close-btn"
+          v-close-popup
+        />
+      </q-carousel>
     </q-dialog>
   </q-page>
 </template>
@@ -116,5 +121,43 @@ function openCarousel(item: Item) {
 
 .q-card:hover .q-img {
   transform: scale(1.05);
+}
+
+/* Novos estilos para o carrossel */
+.carousel-card {
+  max-height: 90vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.carousel-container {
+  background: transparent;
+  height: 100vh;
+}
+
+.carousel-slide {
+  padding: 20px;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.carousel-image {
+  max-height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.close-btn {
+  position: fixed;
+  top: 20px;
+  right: 20px;
+  z-index: 5000;
+  opacity: 0.7;
+}
+
+.close-btn:hover {
+  opacity: 1;
 }
 </style>
