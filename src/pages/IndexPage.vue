@@ -52,7 +52,6 @@
             </q-img>
           </q-carousel-slide>
         </q-carousel>
-
         <q-card-actions align="right">
           <q-btn flat label="Fechar" color="primary" v-close-popup />
         </q-card-actions>
@@ -62,11 +61,11 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue';
+import { ref, onMounted } from 'vue';
 
 // Função para obter URL das imagens
 const getImageUrl = (name: string) => {
-  return new URL(`../assets/images/${name}`, import.meta.url).href;
+  return `/mix-bela/images/${name}`;
 };
 
 interface Item {
@@ -74,32 +73,30 @@ interface Item {
   images: string[];
 }
 
-// Configuração dos itens com suas respectivas imagens
-const items = ref<Item[]>([
-  {
-    id: 1,
-    images: [
-      getImageUrl('1-1.jpg'),
-      getImageUrl('1-2.jpg'),
-      getImageUrl('1-3.jpg')
-    ]
-  },
-  {
-    id: 2,
-    images: [
-      getImageUrl('2-1.jpg'),
-      getImageUrl('2-2.jpg')
-    ]
-  },
-  {
-    id: 3,
-    images: [
-      getImageUrl('3-1.jpg'),
-      getImageUrl('3-2.jpg')
-    ]
-  },
-  // Adicione mais itens conforme necessário
-]);
+const items = ref<Item[]>([]);
+
+onMounted(() => {
+  try {
+    const productImages = new Map<number, string[]>();
+
+    // Assumindo que você tem imagens de produto1-1.jpg até produto3-3.jpg
+    for (let prodId = 1; prodId <= 12; prodId++) {
+      const images: string[] = [];
+      for (let imgId = 1; imgId <= 2; imgId++) {
+        const imageName = `${prodId}-${imgId}.jpg`;
+        images.push(getImageUrl(imageName));
+      }
+      productImages.set(prodId, images);
+    }
+
+    items.value = Array.from(productImages.entries()).map(([id, images]) => ({
+      id,
+      images: images.sort()
+    }));
+  } catch (error) {
+    console.error('Erro ao carregar as imagens:', error);
+  }
+});
 
 const showCarousel = ref(false);
 const selectedItem = ref<Item>({ id: 0, images: [] });
