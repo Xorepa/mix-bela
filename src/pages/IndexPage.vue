@@ -5,8 +5,8 @@
         <q-card class="cursor-pointer" @click="openCarousel(item)">
           <q-img
             :src="getImageUrl(`${item.id}-1.jpg`)"
-            :ratio="1"
-            style="height: 300px"
+            :ratio="4/3"
+            style="height: auto"
           >
             <template v-slot:error>
               <div class="absolute-full flex flex-center text-negative">
