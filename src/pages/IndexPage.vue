@@ -23,56 +23,16 @@
     </div>
 
     <!-- Carrossel Modal -->
-    <q-dialog
+    <CustomCarousel
       v-model="showCarousel"
-      full-width
-      maximized
-      seamless
-      @click-outside="showCarousel = false"
-    >
-      <q-carousel
-        v-model="slide"
-        animated
-        arrows
-        navigation
-        infinite
-        class="carousel-container"
-      >
-        <q-carousel-slide
-          v-for="(image, index) in selectedItem.images"
-          :key="index"
-          :name="index"
-          class="carousel-slide"
-        >
-          <q-img
-            :src="image"
-            class="carousel-image"
-            fit="contain"
-          >
-            <template v-slot:error>
-              <div class="absolute-full flex flex-center text-negative">
-                <q-icon name="error" size="2em" />
-                Imagem não encontrada
-              </div>
-            </template>
-          </q-img>
-        </q-carousel-slide>
-
-        <!-- Botão de fechar flutuante -->
-        <q-btn
-          round
-          color="dark"
-          icon="close"
-          class="close-btn"
-          v-close-popup
-        />
-      </q-carousel>
-    </q-dialog>
+      :images="selectedItem.images"
+    />
   </q-page>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
+import CustomCarousel from 'src/components/CustomCarousel.vue';
 
 // Função para obter URL das imagens
 const getImageUrl = (name: string) => {
@@ -111,11 +71,9 @@ onMounted(() => {
 
 const showCarousel = ref(false);
 const selectedItem = ref<Item>({ id: 0, images: [] });
-const slide = ref(0);
 
 function openCarousel(item: Item) {
   selectedItem.value = item;
-  slide.value = 0;
   showCarousel.value = true;
 }
 </script>
