@@ -1,14 +1,17 @@
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated>
-      <q-toolbar>
+      <q-toolbar style="height: auto">
         <q-btn flat dense round icon="menu" aria-label="Menu" @click="toggleLeftDrawer" />
 
-        <q-toolbar-title>
+        <q-toolbar-title class="flex items-center">
+          <q-img
+            src="/images/logo.png"
+            spinner-color="white"
+            style="height: auto; max-width: 150px"
+          />
           Mix Bela
-
         </q-toolbar-title>
-
 
       </q-toolbar>
     </q-header>
